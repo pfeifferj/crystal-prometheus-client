@@ -195,7 +195,11 @@ module Prometheus
     end
 
     def inc(value : Float64, labels : LabelSet) : Nil
-      sync { @data[labels] += value }
+      sync { inc! value, labels }
+    end
+
+    protected def inc!(value : Float64, labels : LabelSet) : Nil
+      @data[labels] += value
     end
 
     def dec(value : Float64, labels : LabelSet) : Nil

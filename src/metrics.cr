@@ -28,6 +28,11 @@ module Prometheus
       store.inc value.to_f64, label_set_for(labels)
     end
 
+    def inc!(value : Number = 1, labels : LabelSet? = nil)
+      raise ArgumentError.new("Counter increment must be positive") if value < 0
+      store.inc! value.to_f64, label_set_for(labels)
+    end
+
     def value(labels : LabelSet? = nil) : Float64
       store.get label_set_for(labels)
     end
@@ -126,15 +131,15 @@ module Prometheus
 
     def observe(value : Number, labels : Labels? = nil)
       @mutex.synchronize do
-        @count.inc 1, labels
-        @sum.inc value, labels
+        @count.inc! 1, labels
+        @sum.inc! value, labels
         @buckets.each do |upper_bound, bucket|
           if value <= upper_bound
             inc = 1
           else
             inc = 0
           end
-          bucket.inc inc, labels
+          bucket.inc! inc, labels
         end
       end
     end
@@ -188,8 +193,8 @@ module Prometheus
 
     def observe(value : Number, labels : LabelSet? = nil)
       @mutex.synchronize do
-        @count.inc 1, labels
-        @sum.inc value, labels
+        @count.inc! 1, labels
+        @sum.inc! value, labels
       end
     end
 
