@@ -5,7 +5,7 @@ module Prometheus
   # Labels are used to distinguish different dimensions of a metric. For example,
   # an HTTP request counter might have labels for the method and path.
   #
-  # ```crystal
+  # ```
   # label = Label.new("method", "GET")
   # ```
   #
@@ -35,21 +35,23 @@ module Prometheus
   # A LabelSet is used to attach multiple labels to a metric, enabling Prometheus's
   # dimensional data model.
   #
-  # ```crystal
+  # ```
   # labels = LabelSet.new({
   #   "method" => "GET",
-  #   "path" => "/api/users"
+  #   "path"   => "/api/users",
   # })
   # ```
   #
   # LabelSets can be merged to combine labels from different sources:
   #
-  # ```crystal
+  # ```
   # base_labels = LabelSet.new({"service" => "web"})
   # request_labels = LabelSet.new({"method" => "GET"})
   # combined = base_labels.merge(request_labels)
   # ```
   class LabelSet
+    include Enumerable({String, String})
+
     getter labels : Hash(String, String)
 
     def initialize(@labels = Hash(String, String).new)
@@ -60,12 +62,23 @@ module Prometheus
     end
 
     def merge(other : LabelSet)
-      LabelSet.new(@labels.merge(other.labels))
+      merge other.labels
     end
+
+    def merge(other : Hash(String, String))
+      LabelSet.new(labels.merge(other))
+    end
+
+    def []?(label : String)
+      @labels[label]?
+    end
+
+    delegate each, to: labels
+    def_equals_and_hash labels
 
     def to_s(io : IO)
       return if @labels.empty?
-      
+
       first = true
       io << "{"
       @labels.each do |name, value|
@@ -86,12 +99,32 @@ module Prometheus
   #
   # Metric implementations should be thread-safe and handle concurrent access appropriately.
   abstract class Metric
+    alias Labels = LabelSet | Hash(String, String)
+
     getter name : String
     getter help : String
     getter labels : LabelSet
 
+    def initialize(name : String, help : String, labels : Hash(String, String) = nil)
+      initialize name, help, LabelSet.new(labels)
+    end
+
     def initialize(@name : String, @help : String, @labels = LabelSet.new)
       validate_name
+    end
+
+    protected getter store : DataStore = DataStore.new
+
+    private def label_set_for(labels : Hash(String, String)) : LabelSet
+      label_set_for LabelSet.new(labels)
+    end
+
+    private def label_set_for(labels : LabelSet) : LabelSet
+      @labels.merge(labels)
+    end
+
+    private def label_set_for(labels : Nil) : LabelSet
+      @labels
     end
 
     private def validate_name
@@ -100,7 +133,12 @@ module Prometheus
     end
 
     abstract def type : String
-    abstract def collect : Array(Sample)
+
+    def collect : Array(Sample)
+      store.map do |label_set, value|
+        Sample.new(@name, label_set, value)
+      end
+    end
   end
 
   # Represents a single sample value at a point in time.
@@ -125,6 +163,10 @@ module Prometheus
     getter value : Float64
     getter timestamp : Int64?
 
+    def self.new(name : String, labels : Hash(String, String), value : Float64, timestamp : Int64? = nil)
+      new name, LabelSet.new(labels), value, timestamp
+    end
+
     def initialize(@name : String, @labels : LabelSet, @value : Float64, @timestamp : Int64? = nil)
     end
 
@@ -137,6 +179,37 @@ module Prometheus
         io << " "
         io << timestamp
       end
+    end
+
+    def_equals_and_hash name, labels, value, timestamp
+  end
+
+  class DataStore
+    include Enumerable({LabelSet, Float64})
+    private alias Data = Hash(LabelSet, Float64)
+    @data = Data.new { |data, labels| data[labels] = 0.0 }
+    @mutex = Mutex.new
+
+    def set(value : Float64, labels : LabelSet) : Nil
+      sync { @data[labels] = value }
+    end
+
+    def inc(value : Float64, labels : LabelSet) : Nil
+      sync { @data[labels] += value }
+    end
+
+    def dec(value : Float64, labels : LabelSet) : Nil
+      inc -1, labels
+    end
+
+    def get(labels : LabelSet) : Float64
+      sync { @data.fetch(labels, 0.0) }
+    end
+
+    delegate each, to: @data
+
+    private def sync(&)
+      @mutex.synchronize { yield }
     end
   end
 end

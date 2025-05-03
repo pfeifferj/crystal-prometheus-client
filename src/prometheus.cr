@@ -33,7 +33,6 @@ require "./registry"
 module Prometheus
   VERSION = "0.1.0"
 
-
   # Creates and registers a new Counter metric.
   #
   # A Counter is a cumulative metric that represents a single monotonically increasing counter

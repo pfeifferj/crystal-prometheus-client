@@ -12,7 +12,7 @@ module Prometheus
   # A default registry is provided via `Prometheus.register`, but you can also create
   # your own registries if needed:
   #
-  # ```crystal
+  # ```
   # # Using default registry
   # Prometheus.register(metric)
   # output = Prometheus.collect
@@ -34,7 +34,7 @@ module Prometheus
     # Each metric name must be unique within a registry. Attempting to register
     # a metric with a name that's already in use will raise an ArgumentError.
     #
-    # ```crystal
+    # ```
     # counter = Counter.new("http_requests_total", "Total HTTP requests")
     # registry.register(counter)
     # ```
@@ -52,7 +52,7 @@ module Prometheus
 
     # Unregisters a metric by name.
     #
-    # ```crystal
+    # ```
     # registry.unregister("http_requests_total")
     # ```
     def unregister(name : String)
@@ -63,7 +63,7 @@ module Prometheus
 
     # Removes all metrics from the registry.
     #
-    # ```crystal
+    # ```
     # registry.clear
     # ```
     def clear
@@ -81,26 +81,29 @@ module Prometheus
     # http_requests_total{method="GET"} 42
     # ```
     #
-    # ```crystal
+    # ```
     # output = registry.collect
     # puts output
     # ```
     def collect : String
-      output = String.build do |io|
-        @mutex.synchronize do
-          @metrics.each do |_, metric|
-            # Write help comment
-            io << "# HELP " << metric.name << " " << metric.help << "\n"
-            # Write type comment
-            io << "# TYPE " << metric.name << " " << metric.type << "\n"
-            # Write samples
-            metric.collect.each do |sample|
-              io << sample << "\n"
-            end
+      String.build do |io|
+        collect io
+      end
+    end
+
+    def collect(io : IO) : Nil
+      @mutex.synchronize do
+        @metrics.each do |_, metric|
+          # Write help comment
+          io << "# HELP " << metric.name << " " << metric.help << "\n"
+          # Write type comment
+          io << "# TYPE " << metric.name << " " << metric.type << "\n"
+          # Write samples
+          metric.collect.each do |sample|
+            io << sample << "\n"
           end
         end
       end
-      output
     end
 
     # Default global registry instance
