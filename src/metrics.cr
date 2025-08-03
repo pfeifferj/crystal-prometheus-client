@@ -23,18 +23,22 @@ module Prometheus
       "counter"
     end
 
-    def inc(value : Number = 1, labels : LabelSet? = nil)
+    def inc(value : Number = 1, labels : Labels? = nil)
       raise ArgumentError.new("Counter increment must be positive") if value < 0
       store.inc value.to_f64, label_set_for(labels)
     end
 
-    def inc!(value : Number = 1, labels : LabelSet? = nil)
+    def inc!(value : Number = 1, labels : Labels? = nil)
       raise ArgumentError.new("Counter increment must be positive") if value < 0
       store.inc! value.to_f64, label_set_for(labels)
     end
 
-    def value(labels : LabelSet? = nil) : Float64
+    def value(labels : Labels? = nil) : Float64
       store.get label_set_for(labels)
+    end
+
+    protected def get!(labels : Labels? = nil)
+      store.get! label_set_for(labels)
     end
   end
 
@@ -105,10 +109,11 @@ module Prometheus
     @count : Counter
     @sum : Counter
 
-    def initialize(name : String, help : String, buckets : Array(Float64), labels = LabelSet.new)
+    def initialize(name : String, help : String, buckets : Array(Float64), labels = Labels.new)
       super(name, help, labels)
       @count = Counter.new("#{name}_count", help, labels: labels)
       @sum = Counter.new("#{name}_sum", help, labels: labels)
+      @label_sets = Set(Labels?).new
       @buckets = buckets.sort.map do |bucket|
         counter = Counter.new("#{name}_bucket", help, labels: labels.merge({
           "le" => bucket.to_s,
@@ -131,15 +136,13 @@ module Prometheus
 
     def observe(value : Number, labels : Labels? = nil)
       @mutex.synchronize do
+        @label_sets << labels
         @count.inc! 1, labels
         @sum.inc! value, labels
         @buckets.each do |upper_bound, bucket|
           if value <= upper_bound
-            inc = 1
-          else
-            inc = 0
+            bucket.inc! 1, labels
           end
-          bucket.inc! inc, labels
         end
       end
     end
@@ -151,6 +154,9 @@ module Prometheus
           .concat(@sum.collect)
 
         @buckets.each do |upper_bound, bucket|
+          @label_sets.each do |labels|
+            bucket.get! labels
+          end
           samples.concat bucket.collect
         end
 
@@ -181,7 +187,7 @@ module Prometheus
     @count : Counter
     @sum : Counter
 
-    def initialize(name : String, help : String, labels = LabelSet.new)
+    def initialize(name : String, help : String, labels = Labels.new)
       super(name, help, labels)
       @count = Counter.new("#{name}_count", help, labels)
       @sum = Counter.new("#{name}_sum", help, labels)
@@ -191,7 +197,7 @@ module Prometheus
       "summary"
     end
 
-    def observe(value : Number, labels : LabelSet? = nil)
+    def observe(value : Number, labels : Labels? = nil)
       @mutex.synchronize do
         @count.inc! 1, labels
         @sum.inc! value, labels

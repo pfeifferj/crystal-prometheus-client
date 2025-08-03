@@ -186,9 +186,14 @@ module Prometheus
 
   class DataStore
     include Enumerable({LabelSet, Float64})
+
     private alias Data = Hash(LabelSet, Float64)
-    @data = Data.new { |data, labels| data[labels] = 0.0 }
-    @mutex = Mutex.new
+
+    def initialize
+      @data = Data.new { |data, labels| sync { data[labels] = 0.0 } }
+      @label_sets = Set(LabelSet).new
+      @mutex = Mutex.new(:reentrant)
+    end
 
     def set(value : Float64, labels : LabelSet) : Nil
       sync { @data[labels] = value }
@@ -207,10 +212,14 @@ module Prometheus
     end
 
     def get(labels : LabelSet) : Float64
-      sync { @data.fetch(labels, 0.0) }
+      sync { get! labels }
     end
 
     delegate each, to: @data
+
+    protected def get!(labels : LabelSet)
+      @data[labels]
+    end
 
     private def sync(&)
       @mutex.synchronize { yield }

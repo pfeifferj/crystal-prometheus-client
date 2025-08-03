@@ -24,7 +24,7 @@ describe Prometheus do
     it "returns the collection of all values for all label sets" do
       counter = Prometheus.counter("test_counter", "A test counter", labels: {"foo" => "bar"})
       counter.inc 1
-      counter.inc 2, labels: Prometheus::LabelSet.new({"baz" => "quux"})
+      counter.inc 2, labels: {"baz" => "quux"}
 
       counter.collect.should eq [
         Prometheus::Sample.new("test_counter", Prometheus::LabelSet.new({"foo" => "bar"}), 1.0),
