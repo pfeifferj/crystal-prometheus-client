@@ -11,34 +11,34 @@ module Prometheus
   # * Number of errors
   #
   # Example:
-  # ```crystal
+  # ```
   # counter = Counter.new("http_requests_total", "Total HTTP requests")
-  # counter.inc      # Increment by 1
-  # counter.inc(5)   # Increment by 5
+  # counter.inc    # Increment by 1
+  # counter.inc(5) # Increment by 5
   # ```
   #
   # NOTE: Counter values cannot decrease. Use a Gauge for values that can go up and down.
   class Counter < Metric
-    @value : Float64 = 0.0
-    @mutex = Mutex.new
-
     def type : String
       "counter"
     end
 
-    def inc(value : Number = 1)
+    def inc(value : Number = 1, labels : Labels? = nil)
       raise ArgumentError.new("Counter increment must be positive") if value < 0
-      @mutex.synchronize do
-        @value += value.to_f64
-      end
+      store.inc value.to_f64, label_set_for(labels)
     end
 
-    def value : Float64
-      @mutex.synchronize { @value }
+    def inc!(value : Number = 1, labels : Labels? = nil)
+      raise ArgumentError.new("Counter increment must be positive") if value < 0
+      store.inc! value.to_f64, label_set_for(labels)
     end
 
-    def collect : Array(Sample)
-      [Sample.new(@name, @labels, value)]
+    def value(labels : Labels? = nil) : Float64
+      store.get label_set_for(labels)
+    end
+
+    protected def get!(labels : Labels? = nil)
+      store.get! label_set_for(labels)
     end
   end
 
@@ -50,44 +50,31 @@ module Prometheus
   # * Number of active connections
   #
   # Example:
-  # ```crystal
+  # ```
   # gauge = Gauge.new("cpu_usage", "CPU usage percentage")
-  # gauge.set(45.2)  # Set to specific value
-  # gauge.inc(5)     # Increase by 5
-  # gauge.dec(3)     # Decrease by 3
+  # gauge.set(45.2) # Set to specific value
+  # gauge.inc(5)    # Increase by 5
+  # gauge.dec(3)    # Decrease by 3
   # ```
   class Gauge < Metric
-    @value : Float64 = 0.0
-    @mutex = Mutex.new
-
     def type : String
       "gauge"
     end
 
-    def set(value : Number)
-      @mutex.synchronize do
-        @value = value.to_f64
-      end
+    def set(value : Number, labels : Labels? = nil)
+      store.set value, label_set_for(labels)
     end
 
-    def inc(value : Number = 1)
-      @mutex.synchronize do
-        @value += value.to_f64
-      end
+    def inc(value : Number = 1, labels : Labels? = nil)
+      store.inc value, label_set_for(labels)
     end
 
-    def dec(value : Number = 1)
-      @mutex.synchronize do
-        @value -= value.to_f64
-      end
+    def dec(value : Number = 1, labels : Labels? = nil)
+      store.dec value, label_set_for(labels)
     end
 
-    def value : Float64
-      @mutex.synchronize { @value }
-    end
-
-    def collect : Array(Sample)
-      [Sample.new(@name, @labels, value)]
+    def value(labels : Labels? = nil) : Float64
+      store.get label_set_for(labels)
     end
   end
 
@@ -100,7 +87,7 @@ module Prometheus
   # * Queue length variations
   #
   # Example:
-  # ```crystal
+  # ```
   # # Create with custom buckets
   # histogram = Histogram.new(
   #   "response_time",
@@ -117,30 +104,44 @@ module Prometheus
   # * Total sum of all observed values
   # * Count of all observed values
   class Histogram < Metric
+    @buckets : Array({Float64, Counter})
     @mutex = Mutex.new
-    @sum : Float64 = 0.0
-    @count : UInt64 = 0
-    @buckets : Hash(Float64, UInt64)
+    @count : Counter
+    @sum : Counter
 
-    def initialize(name : String, help : String, buckets : Array(Float64), labels = LabelSet.new)
+    def initialize(name : String, help : String, buckets : Array(Float64), labels = Labels.new)
       super(name, help, labels)
-      @buckets = Hash(Float64, UInt64).new(0_u64)
-      buckets.sort.each { |upper_bound| @buckets[upper_bound] = 0_u64 }
+      @count = Counter.new("#{name}_count", help, labels: labels)
+      @sum = Counter.new("#{name}_sum", help, labels: labels)
+      @label_sets = Set(Labels?).new
+      @buckets = buckets.sort.map do |bucket|
+        counter = Counter.new("#{name}_bucket", help, labels: labels.merge({
+          "le" => bucket.to_s,
+        }))
+        counter.store.set 0f64, counter.labels
+
+        {bucket, counter}
+      end
+      infinity = Counter.new("#{name}_bucket", help, labels: labels.merge({"le" => "+Inf"}))
+      @buckets << {
+        Float64::INFINITY,
+        infinity,
+      }
+      infinity.store.set 0f64, infinity.labels
     end
 
     def type : String
       "histogram"
     end
 
-    def observe(value : Number)
-      value_f64 = value.to_f64
+    def observe(value : Number, labels : Labels? = nil)
       @mutex.synchronize do
-        @sum += value_f64
-        @count += 1
-        # Update all buckets that have an upper bound greater than or equal to the value
-        @buckets.each do |upper_bound, _|
-          if value_f64 <= upper_bound
-            @buckets[upper_bound] += 1
+        @label_sets << labels
+        @count.inc! 1, labels
+        @sum.inc! value, labels
+        @buckets.each do |upper_bound, bucket|
+          if value <= upper_bound
+            bucket.inc! 1, labels
           end
         end
       end
@@ -148,21 +149,16 @@ module Prometheus
 
     def collect : Array(Sample)
       @mutex.synchronize do
-        samples = [] of Sample
-        
-        # Add bucket samples
-        @buckets.each do |upper_bound, count|
-          bucket_label = @labels.merge(LabelSet.new({"le" => upper_bound.to_s}))
-          samples << Sample.new("#{@name}_bucket", bucket_label, count.to_f64)
+        samples = Array(Sample).new(@buckets.size + 2)
+          .concat(@count.collect)
+          .concat(@sum.collect)
+
+        @buckets.each do |upper_bound, bucket|
+          @label_sets.each do |labels|
+            bucket.get! labels
+          end
+          samples.concat bucket.collect
         end
-
-        # Add +Inf bucket
-        inf_label = @labels.merge(LabelSet.new({"le" => "+Inf"}))
-        samples << Sample.new("#{@name}_bucket", inf_label, @count.to_f64)
-
-        # Add sum and count metrics
-        samples << Sample.new("#{@name}_sum", @labels, @sum)
-        samples << Sample.new("#{@name}_count", @labels, @count.to_f64)
 
         samples
       end
@@ -178,7 +174,7 @@ module Prometheus
   # * Response sizes
   #
   # Example:
-  # ```crystal
+  # ```
   # summary = Summary.new("request_size", "Request size in bytes")
   # summary.observe(1024)
   # ```
@@ -188,30 +184,31 @@ module Prometheus
   # * Sum of all observed values
   class Summary < Metric
     @mutex = Mutex.new
-    @count : UInt64 = 0
-    @sum : Float64 = 0.0
+    @count : Counter
+    @sum : Counter
 
-    def initialize(name : String, help : String, labels = LabelSet.new)
+    def initialize(name : String, help : String, labels = Labels.new)
       super(name, help, labels)
+      @count = Counter.new("#{name}_count", help, labels)
+      @sum = Counter.new("#{name}_sum", help, labels)
     end
 
     def type : String
       "summary"
     end
 
-    def observe(value : Number)
+    def observe(value : Number, labels : Labels? = nil)
       @mutex.synchronize do
-        @count += 1
-        @sum += value.to_f64
+        @count.inc! 1, labels
+        @sum.inc! value, labels
       end
     end
 
     def collect : Array(Sample)
       @mutex.synchronize do
-        [
-          Sample.new("#{@name}_sum", @labels, @sum),
-          Sample.new("#{@name}_count", @labels, @count.to_f64)
-        ]
+        Array(Sample).new(labels.size * 2)
+          .concat(@count.collect)
+          .concat(@sum.collect)
       end
     end
   end

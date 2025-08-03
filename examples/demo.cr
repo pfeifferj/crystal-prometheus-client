@@ -17,31 +17,35 @@ puts "Simulating HTTP traffic..."
 requests = Prometheus.counter(
   "http_requests_total",
   "Total HTTP requests",
-  Prometheus::LabelSet.new({"endpoint" => "/api"}) # Default to API endpoint
 )
 
 # Simulate requests over 5 iterations
 5.times do |i|
+  labels = {
+    "method"   => %w[GET POST].sample,
+    "endpoint" => %w[/api /].sample,
+  }
+
   # Simulate API requests
-  requests.inc
-  response_time.observe(0.2) # 200ms response time
-  request_size.observe(512)  # 512 bytes request size
-  
+  requests.inc labels: labels
+  response_time.observe(0.2, labels) # 200ms response time
+  request_size.observe(512, labels)  # 512 bytes request size
+
   # Simulate web requests - Note: Currently limited by implementation
   # In a real Prometheus client, we would be able to increment with different labels
-  requests.inc
-  response_time.observe(0.4) # 400ms response time
-  request_size.observe(1024) # 1KB request size
-  
+  requests.inc(labels: labels)
+  response_time.observe(0.4, labels) # 400ms response time
+  request_size.observe(1024, labels) # 1KB request size
+
   # Simulate some errors (20% error rate)
   errors.inc if i % 5 == 0
-  
+
   # Simulate memory usage fluctuation
-  memory.set(100_000 + (i * 10_000)) # Increasing memory usage
-  
+  memory.set(100_000 + (i * 10_000), labels) # Increasing memory usage
+
   sleep 1.seconds # Wait 1 second between iterations
 end
 
 puts "\nMetrics output:"
 puts "=============="
-puts Prometheus.collect
+Prometheus.collect STDOUT

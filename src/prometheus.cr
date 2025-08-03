@@ -10,7 +10,7 @@ require "./registry"
 #
 # ## Basic Usage
 #
-# ```crystal
+# ```
 # # Create metrics
 # counter = Prometheus.counter("http_requests_total", "Total HTTP requests")
 # gauge = Prometheus.gauge("cpu_usage", "CPU usage percentage")
@@ -33,16 +33,15 @@ require "./registry"
 module Prometheus
   VERSION = "0.1.0"
 
-
   # Creates and registers a new Counter metric.
   #
   # A Counter is a cumulative metric that represents a single monotonically increasing counter
   # whose value can only increase or be reset to zero.
   #
-  # ```crystal
+  # ```
   # counter = Prometheus.counter("http_requests_total", "Total HTTP requests")
-  # counter.inc      # Increment by 1
-  # counter.inc(5)   # Increment by 5
+  # counter.inc    # Increment by 1
+  # counter.inc(5) # Increment by 5
   # ```
   #
   # Parameters:
@@ -61,6 +60,10 @@ module Prometheus
     Registry.default.clear
   end
 
+  def self.collect(io : IO) : Nil
+    Registry.default.collect io
+  end
+
   def self.collect : String
     Registry.default.collect
   end
@@ -69,11 +72,11 @@ module Prometheus
   #
   # A Gauge is a metric that represents a single numerical value that can arbitrarily go up and down.
   #
-  # ```crystal
+  # ```
   # gauge = Prometheus.gauge("cpu_usage", "CPU usage percentage")
-  # gauge.set(45.2)  # Set to 45.2
-  # gauge.inc(5)     # Increase by 5
-  # gauge.dec(3)     # Decrease by 3
+  # gauge.set(45.2) # Set to 45.2
+  # gauge.inc(5)    # Increase by 5
+  # gauge.dec(3)    # Decrease by 3
   # ```
   #
   # Parameters:
@@ -97,7 +100,7 @@ module Prometheus
   # A Histogram samples observations (usually things like request durations or response sizes)
   # and counts them in configurable buckets.
   #
-  # ```crystal
+  # ```
   # histogram = Prometheus.histogram(
   #   "response_time",
   #   "Response time in seconds",
@@ -122,7 +125,7 @@ module Prometheus
   # A Summary captures individual observations from an event or sample stream
   # and summarizes them in a traditional way, with count and sum.
   #
-  # ```crystal
+  # ```
   # summary = Prometheus.summary("request_size", "Request size in bytes")
   # summary.observe(1024)
   # ```
