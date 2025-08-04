@@ -147,6 +147,19 @@ module Prometheus
       end
     end
 
+    def collect(io : IO) : Nil
+      @mutex.synchronize do
+        @count.collect io
+        @sum.collect io
+        @buckets.each do |upper_bound, bucket|
+          @label_sets.each do |labels|
+            bucket.get! labels
+          end
+          bucket.collect io
+        end
+      end
+    end
+
     def collect : Array(Sample)
       @mutex.synchronize do
         samples = Array(Sample).new(@buckets.size + 2)

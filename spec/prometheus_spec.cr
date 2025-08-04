@@ -144,6 +144,19 @@ describe Prometheus do
       output.should contain("test_counter 5")
     end
 
+    it "collects metrics via an IO" do
+      buffer = IO::Memory.new
+      counter = Prometheus.counter("test_counter", "A test counter")
+      counter.inc 5
+
+      Prometheus.collect buffer
+      output = buffer.to_s
+
+      output.should contain("# HELP test_counter A test counter\n")
+      output.should contain("# TYPE test_counter counter\n")
+      output.should contain("test_counter 5")
+    end
+
     it "handles labels correctly" do
       labels = Prometheus::LabelSet.new({"handler" => "test"})
       counter = Prometheus.counter("http_requests_total", "Total HTTP requests", labels)
