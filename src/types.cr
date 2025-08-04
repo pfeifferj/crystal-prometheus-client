@@ -49,7 +49,7 @@ module Prometheus
   # request_labels = LabelSet.new({"method" => "GET"})
   # combined = base_labels.merge(request_labels)
   # ```
-  class LabelSet
+  struct LabelSet
     include Enumerable({String, String})
 
     getter labels : Hash(String, String)
@@ -104,6 +104,7 @@ module Prometheus
     getter name : String
     getter help : String
     getter labels : LabelSet
+    @cache = LabelCache.new
 
     def initialize(name : String, help : String, labels : Hash(String, String) = nil)
       initialize name, help, LabelSet.new(labels)
@@ -120,7 +121,9 @@ module Prometheus
     end
 
     private def label_set_for(labels : LabelSet) : LabelSet
-      @labels.merge(labels)
+      @cache.fetch(labels) do
+        @labels.merge(labels)
+      end
     end
 
     private def label_set_for(labels : Nil) : LabelSet
@@ -134,9 +137,25 @@ module Prometheus
 
     abstract def type : String
 
+    def collect(io : IO) : Nil
+      store.each do |label_set, value|
+        Sample.new(name, label_set, value).collect io
+      end
+    end
+
     def collect : Array(Sample)
       store.map do |label_set, value|
         Sample.new(@name, label_set, value)
+      end
+    end
+
+    private struct LabelCache
+      @data = {} of LabelSet => LabelSet
+
+      def fetch(labels : LabelSet)
+        @data.fetch(labels) do
+          @data[labels] = yield labels
+        end
       end
     end
   end
@@ -157,7 +176,7 @@ module Prometheus
   # # Or with timestamp:
   # metric_name{label="value"} 42 1234567890
   # ```
-  class Sample
+  struct Sample
     getter name : String
     getter labels : LabelSet
     getter value : Float64
@@ -168,6 +187,11 @@ module Prometheus
     end
 
     def initialize(@name : String, @labels : LabelSet, @value : Float64, @timestamp : Int64? = nil)
+    end
+
+    def collect(io : IO) : Nil
+      to_s io
+      io.puts
     end
 
     def to_s(io : IO)
@@ -215,10 +239,22 @@ module Prometheus
       sync { get! labels }
     end
 
-    delegate each, to: @data
-
     protected def get!(labels : LabelSet)
       @data[labels]
+    end
+
+    def each(&)
+      sync do
+        each! do |label_set, value|
+          yield({label_set, value})
+        end
+      end
+    end
+
+    protected def each!(&)
+      @data.each do |label_set, value|
+        yield({label_set, value})
+      end
     end
 
     private def sync(&)

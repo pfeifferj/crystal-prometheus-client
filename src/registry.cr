@@ -93,15 +93,13 @@ module Prometheus
 
     def collect(io : IO) : Nil
       @mutex.synchronize do
-        @metrics.each do |_, metric|
+        @metrics.each_value do |metric|
           # Write help comment
           io << "# HELP " << metric.name << " " << metric.help << "\n"
           # Write type comment
           io << "# TYPE " << metric.name << " " << metric.type << "\n"
           # Write samples
-          metric.collect.each do |sample|
-            io << sample << "\n"
-          end
+          metric.collect io
         end
       end
     end
