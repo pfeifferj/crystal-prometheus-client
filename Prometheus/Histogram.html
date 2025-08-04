@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="prometheus">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="prometheus">
+  <title>Prometheus::Histogram - prometheus main</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          prometheus
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="prometheus/Prometheus" data-name="prometheus">
+      <a href="../Prometheus.html">Prometheus</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Counter" data-name="prometheus::counter">
+      <a href="../Prometheus/Counter.html">Counter</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/DataStore" data-name="prometheus::datastore">
+      <a href="../Prometheus/DataStore.html">DataStore</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Gauge" data-name="prometheus::gauge">
+      <a href="../Prometheus/Gauge.html">Gauge</a>
+      
+    </li>
+  
+  <li class=" current" data-id="prometheus/Prometheus/Histogram" data-name="prometheus::histogram">
+      <a href="../Prometheus/Histogram.html">Histogram</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Label" data-name="prometheus::label">
+      <a href="../Prometheus/Label.html">Label</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/LabelSet" data-name="prometheus::labelset">
+      <a href="../Prometheus/LabelSet.html">LabelSet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="prometheus/Prometheus/Metric" data-name="prometheus::metric">
+      <a href="../Prometheus/Metric.html">Metric</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Metric/Labels" data-name="prometheus::metric::labels">
+      <a href="../Prometheus/Metric/Labels.html">Labels</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Registry" data-name="prometheus::registry">
+      <a href="../Prometheus/Registry.html">Registry</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Sample" data-name="prometheus::sample">
+      <a href="../Prometheus/Sample.html">Sample</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Summary" data-name="prometheus::summary">
+      <a href="../Prometheus/Summary.html">Summary</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    class
+  </span> Prometheus::<wbr>Histogram
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Prometheus/Histogram.html">Prometheus::Histogram</a></li><li class="superclass"><a href="../Prometheus/Metric.html">Prometheus::Metric</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A Histogram samples observations (usually things like request durations or response sizes)
+and counts them in configurable buckets.</p>
+<p>Use a Histogram to track size distributions, such as:</p>
+<ul>
+<li>Request duration</li>
+<li>Response sizes</li>
+<li>Queue length variations</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-crystal"><span class="c"># Create with custom buckets</span>
+histogram <span class="o">=</span> <span class="t">Histogram</span>.new(
+  <span class="s">&quot;response_time&quot;</span>,
+  <span class="s">&quot;Response time in seconds&quot;</span>,
+  [<span class="n">0.1</span>, <span class="n">0.5</span>, <span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">5.0</span>]
+)
+
+<span class="c"># Observe values</span>
+histogram.observe(<span class="n">0.25</span>)</code></pre>
+<p>Histograms track:</p>
+<ul>
+<li>Count per bucket (number of values &lt;= bucket upper bound)</li>
+<li>Total sum of all observed values</li>
+<li>Count of all observed values</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L106" target="_blank">
+        metrics.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28name%3AString%2Chelp%3AString%2Cbuckets%3AArray%28Float64%29%2Clabels%3DLabels.new%29-class-method" class="signature"><strong>.new</strong>(name : String, help : String, buckets : Array(Float64), labels = <span class="t">Labels</span>.new)</a>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#collect%28io%3AIO%29%3ANil-instance-method" class="signature"><strong>#collect</strong>(io : IO) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#collect%3AArray%28Sample%29-instance-method" class="signature"><strong>#collect</strong> : Array(Sample)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#observe%28value%3ANumber%2Clabels%3ALabels%7CNil%3Dnil%29-instance-method" class="signature"><strong>#observe</strong>(value : Number, labels : Labels | Nil = <span class="n">nil</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#type%3AString-instance-method" class="signature"><strong>#type</strong> : String</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+  <h3>Instance methods inherited from class <code><a href="../Prometheus/Metric.html">Prometheus::Metric</a></code></h3>
+  
+  
+    <a href="../Prometheus/Metric.html#collect%28io%3AIO%29%3ANil-instance-method" class="tooltip">
+      <span>collect(io : IO) : Nil<br/>collect : Array(Sample)</span>
+    collect</a>, 
+    
+  
+    <a href="../Prometheus/Metric.html#help%3AString-instance-method" class="tooltip">
+      <span>help : String</span>
+    help</a>, 
+    
+  
+    <a href="../Prometheus/Metric.html#labels%3ALabelSet-instance-method" class="tooltip">
+      <span>labels : LabelSet</span>
+    labels</a>, 
+    
+  
+    <a href="../Prometheus/Metric.html#name%3AString-instance-method" class="tooltip">
+      <span>name : String</span>
+    name</a>, 
+    
+  
+    <a href="../Prometheus/Metric.html#type%3AString-instance-method" class="tooltip">
+      <span>type : String</span>
+    type</a>
+    
+  
+
+
+      
+
+  <h3>Constructor methods inherited from class <code><a href="../Prometheus/Metric.html">Prometheus::Metric</a></code></h3>
+  
+  
+    <a href="../Prometheus/Metric.html#new%28name%3AString%2Chelp%3AString%2Clabels%3AHash%28String%2CString%29%3Dnil%29-class-method" class="tooltip">
+      <span>new(name : String, help : String, labels : Hash(String, String) = <span class="n">nil</span>)<br/>new(name : String, help : String, labels : Prometheus::LabelSet = <span class="t">LabelSet</span>.new)</span>
+    new</a>
+    
+  
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(name:String,help:String,buckets:Array(Float64),labels=Labels.new)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(name : String, help : String, buckets : Array(Float64), labels = <span class="t">Labels</span>.new)
+
+        <a class="method-permalink" href="#new%28name%3AString%2Chelp%3AString%2Cbuckets%3AArray%28Float64%29%2Clabels%3DLabels.new%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L112" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="collect(io:IO):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>collect</strong>(io : IO) : Nil
+
+        <a class="method-permalink" href="#collect%28io%3AIO%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L150" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="collect:Array(Sample)-instance-method">
+      <div class="signature">
+        
+        def <strong>collect</strong> : Array(<a href="../Prometheus/Sample.html">Sample</a>)
+
+        <a class="method-permalink" href="#collect%3AArray%28Sample%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L163" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="observe(value:Number,labels:Labels|Nil=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>observe</strong>(value : Number, labels : <a href="../Prometheus/Metric/Labels.html">Labels</a> | Nil = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#observe%28value%3ANumber%2Clabels%3ALabels%7CNil%3Dnil%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L137" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="type:String-instance-method">
+      <div class="signature">
+        
+        def <strong>type</strong> : String
+
+        <a class="method-permalink" href="#type%3AString-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L133" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>

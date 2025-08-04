@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="prometheus">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="prometheus">
+  <title>prometheus main</title>
+  <script type="text/javascript">
+  CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          prometheus
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="prometheus/Prometheus" data-name="prometheus">
+      <a href="Prometheus.html">Prometheus</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Counter" data-name="prometheus::counter">
+      <a href="Prometheus/Counter.html">Counter</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/DataStore" data-name="prometheus::datastore">
+      <a href="Prometheus/DataStore.html">DataStore</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Gauge" data-name="prometheus::gauge">
+      <a href="Prometheus/Gauge.html">Gauge</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Histogram" data-name="prometheus::histogram">
+      <a href="Prometheus/Histogram.html">Histogram</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Label" data-name="prometheus::label">
+      <a href="Prometheus/Label.html">Label</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/LabelSet" data-name="prometheus::labelset">
+      <a href="Prometheus/LabelSet.html">LabelSet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="prometheus/Prometheus/Metric" data-name="prometheus::metric">
+      <a href="Prometheus/Metric.html">Metric</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Metric/Labels" data-name="prometheus::metric::labels">
+      <a href="Prometheus/Metric/Labels.html">Labels</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Registry" data-name="prometheus::registry">
+      <a href="Prometheus/Registry.html">Registry</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Sample" data-name="prometheus::sample">
+      <a href="Prometheus/Sample.html">Sample</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Summary" data-name="prometheus::summary">
+      <a href="Prometheus/Summary.html">Summary</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1><a id="prometheus-client-for-crystal" class="anchor" href="#prometheus-client-for-crystal">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Prometheus Client for Crystal</h1>
+<p>A <a href="https://prometheus.io">Prometheus</a> client library for Crystal following the <a href="https://prometheus.io/docs/instrumenting/writing_clientlibs/">official guidelines</a>.</p>
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
+<ol>
+<li>Add the dependency to your <code>shard.yml</code>:</li>
+</ol>
+<pre><code class="language-yaml">dependencies:
+  prometheus:
+    github: pfeifferj/prometheus
+    version: ~&gt; 0.1.0</code></pre>
+<ol start="2">
+<li>Run <code>shards install</code></li>
+</ol>
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;prometheus&quot;</span>
+
+<span class="c"># Create metrics</span>
+counter <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>)
+gauge <span class="o">=</span> <span class="t">Prometheus</span>.gauge(<span class="s">&quot;cpu_usage&quot;</span>, <span class="s">&quot;CPU usage percentage&quot;</span>)
+histogram <span class="o">=</span> <span class="t">Prometheus</span>.histogram(<span class="s">&quot;response_time&quot;</span>, <span class="s">&quot;Response time in seconds&quot;</span>, [<span class="n">0.1</span>, <span class="n">0.5</span>, <span class="n">1.0</span>])
+summary <span class="o">=</span> <span class="t">Prometheus</span>.summary(<span class="s">&quot;request_size&quot;</span>, <span class="s">&quot;Request size in bytes&quot;</span>)
+
+<span class="c"># Add labels</span>
+labels <span class="o">=</span> <span class="t">Prometheus</span><span class="t">::</span><span class="t">LabelSet</span>.new({
+  <span class="s">&quot;method&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;GET&quot;</span>,
+  <span class="s">&quot;handler&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;home&quot;</span>
+})
+requests <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>, labels)
+
+<span class="c"># Use metrics</span>
+counter.inc                 <span class="c"># Increment by 1</span>
+counter.inc(<span class="n">5</span>)              <span class="c"># Increment by given value</span>
+gauge.set(<span class="n">45.2</span>)             <span class="c"># Set to a value</span>
+gauge.inc(<span class="n">5</span>)                <span class="c"># Increase by 5</span>
+gauge.dec(<span class="n">3</span>)                <span class="c"># Decrease by 3</span>
+histogram.observe(<span class="n">0.25</span>)     <span class="c"># Observe a value</span>
+summary.observe(<span class="n">1024</span>)       <span class="c"># Observe a value</span>
+
+<span class="c"># Get metrics in Prometheus text format</span>
+puts <span class="t">Prometheus</span>.collect</code></pre>
+<h2><a id="demo" class="anchor" href="#demo">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Demo</h2>
+<p>Check out the <a href="examples/demo.cr">demo application</a> that showcases all metric types:</p>
+<pre><code class="language-crystal">crystal examples<span class="o">/</span>demo.cr</code></pre>
+<p>The demo simulates HTTP traffic and demonstrates:</p>
+<ul>
+<li>Counters tracking requests with labels</li>
+<li>Gauges monitoring memory usage</li>
+<li>Histograms measuring response time distributions</li>
+<li>Summaries capturing request size statistics</li>
+</ul>
+<h2><a id="metric-types" class="anchor" href="#metric-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Metric Types</h2>
+<h3><a id="counter" class="anchor" href="#counter">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Counter</h3>
+<p>A counter is a cumulative metric that represents a single monotonically increasing counter whose value can only increase or be reset to zero.</p>
+<pre><code class="language-crystal">counter <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>)
+counter.inc      <span class="c"># Increment by 1</span>
+counter.inc(<span class="n">5</span>)   <span class="c"># Increment by 5</span></code></pre>
+<h3><a id="gauge" class="anchor" href="#gauge">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Gauge</h3>
+<p>A gauge is a metric that represents a single numerical value that can arbitrarily go up and down.</p>
+<pre><code class="language-crystal">gauge <span class="o">=</span> <span class="t">Prometheus</span>.gauge(<span class="s">&quot;cpu_usage&quot;</span>, <span class="s">&quot;CPU usage percentage&quot;</span>)
+gauge.set(<span class="n">45.2</span>)  <span class="c"># Set to 45.2</span>
+gauge.inc(<span class="n">5</span>)     <span class="c"># Increase by 5</span>
+gauge.dec(<span class="n">3</span>)     <span class="c"># Decrease by 3</span></code></pre>
+<h3><a id="histogram" class="anchor" href="#histogram">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Histogram</h3>
+<p>A histogram samples observations (usually things like request durations or response sizes) and counts them in configurable buckets.</p>
+<pre><code class="language-crystal"><span class="c"># Create with custom buckets</span>
+histogram <span class="o">=</span> <span class="t">Prometheus</span>.histogram(
+  <span class="s">&quot;response_time&quot;</span>,
+  <span class="s">&quot;Response time in seconds&quot;</span>,
+  [<span class="n">0.1</span>, <span class="n">0.5</span>, <span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">5.0</span>]
+)
+
+<span class="c"># Observe values</span>
+histogram.observe(<span class="n">0.25</span>)</code></pre>
+<h3><a id="summary" class="anchor" href="#summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Summary</h3>
+<p>A summary captures individual observations from an event or sample stream and summarizes them in a traditional way, with count and sum.</p>
+<pre><code class="language-crystal">summary <span class="o">=</span> <span class="t">Prometheus</span>.summary(<span class="s">&quot;request_size&quot;</span>, <span class="s">&quot;Request size in bytes&quot;</span>)
+summary.observe(<span class="n">1024</span>)</code></pre>
+<h2><a id="labels" class="anchor" href="#labels">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Labels</h2>
+<p>Labels enable Prometheus's dimensional data model. A label set can be attached to any metric:</p>
+<pre><code class="language-crystal"><span class="c"># Create a label set</span>
+labels <span class="o">=</span> <span class="t">Prometheus</span><span class="t">::</span><span class="t">LabelSet</span>.new({
+  <span class="s">&quot;method&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;GET&quot;</span>,
+  <span class="s">&quot;path&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;/api/users&quot;</span>
+})
+
+<span class="c"># Create metric with labels</span>
+requests <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>, labels)
+requests.inc
+
+<span class="c"># Output will include labels:</span>
+<span class="c"># http_requests_total{method=&quot;GET&quot;,path=&quot;/api/users&quot;} 1</span></code></pre>
+<h2><a id="registry" class="anchor" href="#registry">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Registry</h2>
+<p>The library maintains a default registry that manages all metrics. You can access it directly if needed:</p>
+<pre><code class="language-crystal"><span class="c"># Register a metric manually</span>
+<span class="t">Prometheus</span>.register(metric)
+
+<span class="c"># Unregister a metric</span>
+<span class="t">Prometheus</span>.unregister(<span class="s">&quot;metric_name&quot;</span>)
+
+<span class="c"># Clear all metrics</span>
+<span class="t">Prometheus</span>.clear
+
+<span class="c"># Get all metrics in Prometheus text format</span>
+output <span class="o">=</span> <span class="t">Prometheus</span>.collect</code></pre>
+<h2><a id="thread-safety" class="anchor" href="#thread-safety">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Thread Safety</h2>
+<p>All metric operations are thread-safe. The library uses mutexes to ensure proper synchronization in concurrent environments.</p>
+<h2><a id="development" class="anchor" href="#development">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Development</h2>
+<p>Run tests:</p>
+<pre><code class="language-crystal">crystal spec</code></pre>
+<h2><a id="contributing" class="anchor" href="#contributing">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributing</h2>
+<ol>
+<li>Fork it (<a href="https://github.com/pfeifferj/prometheus/fork">https://github.com/pfeifferj/prometheus/fork</a>)</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+<h2><a id="license" class="anchor" href="#license">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>License</h2>
+<p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
+</div>
+</body>
+</html>

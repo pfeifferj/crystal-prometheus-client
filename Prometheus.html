@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="prometheus">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="prometheus">
+  <title>Prometheus - prometheus main</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          prometheus
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="prometheus/Prometheus" data-name="prometheus">
+      <a href="Prometheus.html">Prometheus</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Counter" data-name="prometheus::counter">
+      <a href="Prometheus/Counter.html">Counter</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/DataStore" data-name="prometheus::datastore">
+      <a href="Prometheus/DataStore.html">DataStore</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Gauge" data-name="prometheus::gauge">
+      <a href="Prometheus/Gauge.html">Gauge</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Histogram" data-name="prometheus::histogram">
+      <a href="Prometheus/Histogram.html">Histogram</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Label" data-name="prometheus::label">
+      <a href="Prometheus/Label.html">Label</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/LabelSet" data-name="prometheus::labelset">
+      <a href="Prometheus/LabelSet.html">LabelSet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="prometheus/Prometheus/Metric" data-name="prometheus::metric">
+      <a href="Prometheus/Metric.html">Metric</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Metric/Labels" data-name="prometheus::metric::labels">
+      <a href="Prometheus/Metric/Labels.html">Labels</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Registry" data-name="prometheus::registry">
+      <a href="Prometheus/Registry.html">Registry</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Sample" data-name="prometheus::sample">
+      <a href="Prometheus/Sample.html">Sample</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Summary" data-name="prometheus::summary">
+      <a href="Prometheus/Summary.html">Summary</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    module
+  </span> Prometheus
+
+</h1>
+
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A Crystal client library for Prometheus monitoring system.</p>
+<p>This library provides a complete implementation of Prometheus client library guidelines,
+including support for all metric types (Counter, Gauge, Histogram, Summary),
+label sets, and thread-safe operations.</p>
+<h2><a id="basic-usage" class="anchor" href="#basic-usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Basic Usage</h2>
+<pre><code class="language-crystal"><span class="c"># Create metrics</span>
+counter <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>)
+gauge <span class="o">=</span> <span class="t">Prometheus</span>.gauge(<span class="s">&quot;cpu_usage&quot;</span>, <span class="s">&quot;CPU usage percentage&quot;</span>)
+histogram <span class="o">=</span> <span class="t">Prometheus</span>.histogram(<span class="s">&quot;response_time&quot;</span>, <span class="s">&quot;Response time in seconds&quot;</span>, [<span class="n">0.1</span>, <span class="n">0.5</span>, <span class="n">1.0</span>])
+summary <span class="o">=</span> <span class="t">Prometheus</span>.summary(<span class="s">&quot;request_size&quot;</span>, <span class="s">&quot;Request size in bytes&quot;</span>)
+
+<span class="c"># Add labels</span>
+labels <span class="o">=</span> <span class="t">Prometheus</span><span class="t">::</span><span class="t">LabelSet</span>.new({<span class="s">&quot;method&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;GET&quot;</span>, <span class="s">&quot;path&quot;</span> <span class="o">=&gt;</span> <span class="s">&quot;/api&quot;</span>})
+requests <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>, labels)
+
+<span class="c"># Use metrics</span>
+counter.inc
+gauge.set(<span class="n">45.2</span>)
+histogram.observe(<span class="n">0.25</span>)
+summary.observe(<span class="n">1024</span>)
+
+<span class="c"># Get metrics in Prometheus text format</span>
+puts <span class="t">Prometheus</span>.collect</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/metrics.cr#L4" target="_blank">
+        metrics.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L33" target="_blank">
+        prometheus.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L4" target="_blank">
+        registry.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/types.cr#L2" target="_blank">
+        types.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="VERSION">
+        <strong>VERSION</strong> = <code><span class="s">&quot;0.1.0&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+  
+
+  
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#clear-class-method" class="signature"><strong>.clear</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#collect%28io%3AIO%29%3ANil-class-method" class="signature"><strong>.collect</strong>(io : IO) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#collect%3AString-class-method" class="signature"><strong>.collect</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#counter%28name%3AString%2Chelp%3AString%2Clabels%3DLabelSet.new%29%3ACounter-class-method" class="signature"><strong>.counter</strong>(name : String, help : String, labels = <span class="t">LabelSet</span>.new) : Counter</a>
+        
+          <div class="summary"><p>Creates and registers a new Gauge metric.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#gauge%28name%3AString%2Chelp%3AString%2Clabels%3DLabelSet.new%29%3AGauge-class-method" class="signature"><strong>.gauge</strong>(name : String, help : String, labels = <span class="t">LabelSet</span>.new) : Gauge</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#histogram%28name%3AString%2Chelp%3AString%2Cbuckets%3AArray%28Float64%29%2Clabels%3DLabelSet.new%29%3AHistogram-class-method" class="signature"><strong>.histogram</strong>(name : String, help : String, buckets : Array(Float64), labels = <span class="t">LabelSet</span>.new) : Histogram</a>
+        
+          <div class="summary"><p>Creates and registers a new Histogram metric.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#register%28metric%3AMetric%29-class-method" class="signature"><strong>.register</strong>(metric : Metric)</a>
+        
+          <div class="summary"><p>Creates and registers a new Counter metric.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#summary%28name%3AString%2Chelp%3AString%2Clabels%3DLabelSet.new%29%3ASummary-class-method" class="signature"><strong>.summary</strong>(name : String, help : String, labels = <span class="t">LabelSet</span>.new) : Summary</a>
+        
+          <div class="summary"><p>Creates and registers a new Summary metric.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unregister%28name%3AString%29-class-method" class="signature"><strong>.unregister</strong>(name : String)</a>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+
+
+  <div class="methods-inherited">
+    
+  </div>
+
+  
+
+  
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="clear-class-method">
+      <div class="signature">
+        
+        def self.<strong>clear</strong>
+
+        <a class="method-permalink" href="#clear-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="collect(io:IO):Nil-class-method">
+      <div class="signature">
+        
+        def self.<strong>collect</strong>(io : IO) : Nil
+
+        <a class="method-permalink" href="#collect%28io%3AIO%29%3ANil-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L63" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="collect:String-class-method">
+      <div class="signature">
+        
+        def self.<strong>collect</strong> : String
+
+        <a class="method-permalink" href="#collect%3AString-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L67" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="counter(name:String,help:String,labels=LabelSet.new):Counter-class-method">
+      <div class="signature">
+        
+        def self.<strong>counter</strong>(name : String, help : String, labels = <span class="t">LabelSet</span>.new) : <a href="Prometheus/Counter.html">Counter</a>
+
+        <a class="method-permalink" href="#counter%28name%3AString%2Chelp%3AString%2Clabels%3DLabelSet.new%29%3ACounter-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates and registers a new Gauge metric.</p>
+<p>A Gauge is a metric that represents a single numerical value that can arbitrarily go up and down.</p>
+<pre><code class="language-crystal">gauge <span class="o">=</span> <span class="t">Prometheus</span>.gauge(<span class="s">&quot;cpu_usage&quot;</span>, <span class="s">&quot;CPU usage percentage&quot;</span>)
+gauge.set(<span class="n">45.2</span>) <span class="c"># Set to 45.2</span>
+gauge.inc(<span class="n">5</span>)    <span class="c"># Increase by 5</span>
+gauge.dec(<span class="n">3</span>)    <span class="c"># Decrease by 3</span></code></pre>
+<p>Parameters:</p>
+<ul>
+<li>name : The name of the gauge metric</li>
+<li>help : Help text describing the metric</li>
+<li>labels : Optional LabelSet for dimensional data</li>
+</ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L86" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="gauge(name:String,help:String,labels=LabelSet.new):Gauge-class-method">
+      <div class="signature">
+        
+        def self.<strong>gauge</strong>(name : String, help : String, labels = <span class="t">LabelSet</span>.new) : <a href="Prometheus/Gauge.html">Gauge</a>
+
+        <a class="method-permalink" href="#gauge%28name%3AString%2Chelp%3AString%2Clabels%3DLabelSet.new%29%3AGauge-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L92" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="histogram(name:String,help:String,buckets:Array(Float64),labels=LabelSet.new):Histogram-class-method">
+      <div class="signature">
+        
+        def self.<strong>histogram</strong>(name : String, help : String, buckets : Array(Float64), labels = <span class="t">LabelSet</span>.new) : <a href="Prometheus/Histogram.html">Histogram</a>
+
+        <a class="method-permalink" href="#histogram%28name%3AString%2Chelp%3AString%2Cbuckets%3AArray%28Float64%29%2Clabels%3DLabelSet.new%29%3AHistogram-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates and registers a new Histogram metric.</p>
+<p>A Histogram samples observations (usually things like request durations or response sizes)
+and counts them in configurable buckets.</p>
+<pre><code class="language-crystal">histogram <span class="o">=</span> <span class="t">Prometheus</span>.histogram(
+  <span class="s">&quot;response_time&quot;</span>,
+  <span class="s">&quot;Response time in seconds&quot;</span>,
+  [<span class="n">0.1</span>, <span class="n">0.5</span>, <span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">5.0</span>]
+)
+histogram.observe(<span class="n">0.25</span>)</code></pre>
+<p>Parameters:</p>
+<ul>
+<li>name : The name of the histogram metric</li>
+<li>help : Help text describing the metric</li>
+<li>buckets : Array of upper bounds for histogram buckets</li>
+<li>labels : Optional LabelSet for dimensional data</li>
+</ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L117" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="register(metric:Metric)-class-method">
+      <div class="signature">
+        
+        def self.<strong>register</strong>(metric : <a href="Prometheus/Metric.html">Metric</a>)
+
+        <a class="method-permalink" href="#register%28metric%3AMetric%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates and registers a new Counter metric.</p>
+<p>A Counter is a cumulative metric that represents a single monotonically increasing counter
+whose value can only increase or be reset to zero.</p>
+<pre><code class="language-crystal">counter <span class="o">=</span> <span class="t">Prometheus</span>.counter(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>)
+counter.inc    <span class="c"># Increment by 1</span>
+counter.inc(<span class="n">5</span>) <span class="c"># Increment by 5</span></code></pre>
+<p>Parameters:</p>
+<ul>
+<li>name : The name of the counter metric</li>
+<li>help : Help text describing the metric</li>
+<li>labels : Optional LabelSet for dimensional data</li>
+</ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L51" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="summary(name:String,help:String,labels=LabelSet.new):Summary-class-method">
+      <div class="signature">
+        
+        def self.<strong>summary</strong>(name : String, help : String, labels = <span class="t">LabelSet</span>.new) : <a href="Prometheus/Summary.html">Summary</a>
+
+        <a class="method-permalink" href="#summary%28name%3AString%2Chelp%3AString%2Clabels%3DLabelSet.new%29%3ASummary-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates and registers a new Summary metric.</p>
+<p>A Summary captures individual observations from an event or sample stream
+and summarizes them in a traditional way, with count and sum.</p>
+<pre><code class="language-crystal">summary <span class="o">=</span> <span class="t">Prometheus</span>.summary(<span class="s">&quot;request_size&quot;</span>, <span class="s">&quot;Request size in bytes&quot;</span>)
+summary.observe(<span class="n">1024</span>)</code></pre>
+<p>Parameters:</p>
+<ul>
+<li>name : The name of the summary metric</li>
+<li>help : Help text describing the metric</li>
+<li>labels : Optional LabelSet for dimensional data</li>
+</ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L137" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="unregister(name:String)-class-method">
+      <div class="signature">
+        
+        def self.<strong>unregister</strong>(name : String)
+
+        <a class="method-permalink" href="#unregister%28name%3AString%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/prometheus.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+
+
+</div>
+
+</body>
+</html>

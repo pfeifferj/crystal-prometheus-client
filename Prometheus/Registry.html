@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.16.3">
+<meta name="crystal_docs.project_version" content="main">
+<meta name="crystal_docs.project_name" content="prometheus">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="prometheus">
+  <title>Prometheus::Registry - prometheus main</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          prometheus
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="prometheus/Prometheus" data-name="prometheus">
+      <a href="../Prometheus.html">Prometheus</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Counter" data-name="prometheus::counter">
+      <a href="../Prometheus/Counter.html">Counter</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/DataStore" data-name="prometheus::datastore">
+      <a href="../Prometheus/DataStore.html">DataStore</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Gauge" data-name="prometheus::gauge">
+      <a href="../Prometheus/Gauge.html">Gauge</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Histogram" data-name="prometheus::histogram">
+      <a href="../Prometheus/Histogram.html">Histogram</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Label" data-name="prometheus::label">
+      <a href="../Prometheus/Label.html">Label</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/LabelSet" data-name="prometheus::labelset">
+      <a href="../Prometheus/LabelSet.html">LabelSet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="prometheus/Prometheus/Metric" data-name="prometheus::metric">
+      <a href="../Prometheus/Metric.html">Metric</a>
+      
+        <ul>
+  
+  <li class=" " data-id="prometheus/Prometheus/Metric/Labels" data-name="prometheus::metric::labels">
+      <a href="../Prometheus/Metric/Labels.html">Labels</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" current" data-id="prometheus/Prometheus/Registry" data-name="prometheus::registry">
+      <a href="../Prometheus/Registry.html">Registry</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Sample" data-name="prometheus::sample">
+      <a href="../Prometheus/Sample.html">Sample</a>
+      
+    </li>
+  
+  <li class=" " data-id="prometheus/Prometheus/Summary" data-name="prometheus::summary">
+      <a href="../Prometheus/Summary.html">Summary</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    class
+  </span> Prometheus::<wbr>Registry
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Prometheus/Registry.html">Prometheus::Registry</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Registry stores and manages the collection of metrics.</p>
+<p>The Registry is responsible for:</p>
+<ul>
+<li>Storing metric instances</li>
+<li>Ensuring metric names are unique</li>
+<li>Collecting metrics in Prometheus text format</li>
+</ul>
+<p>A default registry is provided via <code><a href="../Prometheus.html#register%28metric%3AMetric%29-class-method">Prometheus.register</a></code>, but you can also create
+your own registries if needed:</p>
+<pre><code class="language-crystal"><span class="c"># Using default registry</span>
+<span class="t">Prometheus</span>.register(metric)
+output <span class="o">=</span> <span class="t">Prometheus</span>.collect
+
+<span class="c"># Using custom registry</span>
+registry <span class="o">=</span> <span class="t">Registry</span>.new
+registry.register(metric)
+output <span class="o">=</span> registry.collect</code></pre>
+<p>The registry ensures thread-safe access to metrics and provides proper
+synchronization for concurrent operations.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L28" target="_blank">
+        registry.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#default%3ARegistry-class-method" class="signature"><strong>.default</strong> : Registry</a>
+        
+          <div class="summary"><p>Default global registry instance</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#clear-instance-method" class="signature"><strong>#clear</strong></a>
+        
+          <div class="summary"><p>Removes all metrics from the registry.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#collect%28io%3AIO%29%3ANil-instance-method" class="signature"><strong>#collect</strong>(io : IO) : Nil</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#collect%3AString-instance-method" class="signature"><strong>#collect</strong> : String</a>
+        
+          <div class="summary"><p>Collects all registered metrics and returns them in Prometheus text format.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#register%28metric%3AMetric%29-instance-method" class="signature"><strong>#register</strong>(metric : Metric)</a>
+        
+          <div class="summary"><p>Registers a metric with this registry.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#unregister%28name%3AString%29-instance-method" class="signature"><strong>#unregister</strong>(name : String)</a>
+        
+          <div class="summary"><p>Unregisters a metric by name.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="default:Registry-class-method">
+      <div class="signature">
+        
+        def self.<strong>default</strong> : <a href="../Prometheus/Registry.html">Registry</a>
+
+        <a class="method-permalink" href="#default%3ARegistry-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Default global registry instance</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L108" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="clear-instance-method">
+      <div class="signature">
+        
+        def <strong>clear</strong>
+
+        <a class="method-permalink" href="#clear-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Removes all metrics from the registry.</p>
+<pre><code class="language-crystal">registry.clear</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L69" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="collect(io:IO):Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>collect</strong>(io : IO) : Nil
+
+        <a class="method-permalink" href="#collect%28io%3AIO%29%3ANil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L94" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="collect:String-instance-method">
+      <div class="signature">
+        
+        def <strong>collect</strong> : String
+
+        <a class="method-permalink" href="#collect%3AString-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Collects all registered metrics and returns them in Prometheus text format.</p>
+<p>The output format follows the Prometheus exposition format:</p>
+<pre><code class="language-text"># HELP http_requests_total Total HTTP requests
+# TYPE http_requests_total counter
+http_requests_total{method=&quot;GET&quot;} 42</code></pre>
+<pre><code class="language-crystal">output <span class="o">=</span> registry.collect
+puts output</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L88" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="register(metric:Metric)-instance-method">
+      <div class="signature">
+        
+        def <strong>register</strong>(metric : <a href="../Prometheus/Metric.html">Metric</a>)
+
+        <a class="method-permalink" href="#register%28metric%3AMetric%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Registers a metric with this registry.</p>
+<p>Each metric name must be unique within a registry. Attempting to register
+a metric with a name that's already in use will raise an ArgumentError.</p>
+<pre><code class="language-crystal">counter <span class="o">=</span> <span class="t">Counter</span>.new(<span class="s">&quot;http_requests_total&quot;</span>, <span class="s">&quot;Total HTTP requests&quot;</span>)
+registry.register(counter)</code></pre>
+<p>Raises:</p>
+<ul>
+<li>ArgumentError if a metric with the same name is already registered</li>
+</ul>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L44" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="unregister(name:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>unregister</strong>(name : String)
+
+        <a class="method-permalink" href="#unregister%28name%3AString%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Unregisters a metric by name.</p>
+<pre><code class="language-crystal">registry.unregister(<span class="s">&quot;http_requests_total&quot;</span>)</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/pfeifferj/crystal-prometheus-client/blob/a691d405b6d0819e8c3c473a27cbd27ddb9a0c2b/src/registry.cr#L58" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>
